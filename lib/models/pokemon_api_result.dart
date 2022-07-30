@@ -16,7 +16,7 @@ class PokemonApiResult {
         .toList();
     return PokemonApiResult(
       next: json['next'],
-      previous: json['previous'],
+      previous: json['previous'] ?? '',
       results: results,
     );
   }
