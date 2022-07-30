@@ -1,9 +1,16 @@
-class PokemonResultItem {
+class PokemonApiResultItem {
   final String name;
   final String url;
 
-  PokemonResultItem({
+  PokemonApiResultItem({
     required this.name,
     required this.url,
   });
+
+  factory PokemonApiResultItem.fromJson(Map<String, dynamic> json) {
+    return PokemonApiResultItem(
+      name: json['name'],
+      url: json['url'],
+    );
+  }
 }
