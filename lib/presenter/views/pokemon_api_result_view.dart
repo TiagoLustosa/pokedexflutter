@@ -8,17 +8,36 @@ class PokemonApiResultView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PokemonApiResultBloc, PokemonApiResultState>(
-      bloc: context.read<PokemonApiResultBloc>()..add(GetPokemonApiResult()),
+      bloc: context.read<PokemonApiResultBloc>()..add(GetPokemonsEvent()),
       builder: (context, state) {
         if (state is PokemonApiResultLoading) {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is PokemonApiResultSuccess) {
-          return ListView.builder(itemBuilder: (context, index) {
-            return Center(
-              child: Text(state.pokemonApiResult.results[index].name),
-            );
-          });
+          return ListView.builder(
+              itemCount: state.pokemons.length,
+              itemBuilder: (context, index) {
+                return Center(
+                  child: Column(
+                    children: [
+                      Text(state.pokemons[index].name),
+                      SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: Image.network(
+                          state.pokemons[index].imageURL,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
         }
         return const Scaffold(
           body: Center(

@@ -10,7 +10,7 @@ class PokemonApiResultLoading extends PokemonApiResultState {}
 class PokemonApiResultError extends PokemonApiResultState {}
 
 class PokemonApiResultSuccess extends PokemonApiResultState {
-  final PokemonApiResult pokemonApiResult;
+  final List<Pokemon> pokemons;
 
-  PokemonApiResultSuccess(this.pokemonApiResult);
+  PokemonApiResultSuccess(this.pokemons);
 }

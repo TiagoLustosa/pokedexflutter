@@ -2,24 +2,23 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/models/pokemon_api_result.dart';
-import 'package:pokedex/repositories/interfaces/i_pokemon_api_result_repository.dart';
+import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/services/interfaces/i_pokemon_service.dart';
 part 'pokemon_api_result_event.dart';
 part 'pokemon_api_result_state.dart';
 
 @injectable
 class PokemonApiResultBloc
     extends Bloc<PokemonApiResultEvent, PokemonApiResultState> {
-  final IPokemonApiResultRepository pokemonApiResultRepository;
-  PokemonApiResultBloc({required this.pokemonApiResultRepository})
+  final IPokemonService pokemonService;
+  PokemonApiResultBloc({required this.pokemonService})
       : super(PokemonApiResultInitial()) {
-    on<GetPokemonApiResult>(getPokemonApiResult);
+    on<GetPokemonsEvent>(getPokemonApiResult);
   }
   FutureOr<void> getPokemonApiResult(
-      GetPokemonApiResult event, Emitter emit) async {
+      GetPokemonsEvent event, Emitter emit) async {
     emit(PokemonApiResultLoading());
-    final pokemonApiResult =
-        await pokemonApiResultRepository.getPokemonApiResult();
+    final pokemonApiResult = await pokemonService.getPokemons();
     if (pokemonApiResult is Exception) {
       emit(PokemonApiResultError());
     }
