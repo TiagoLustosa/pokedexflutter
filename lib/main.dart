@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<PokemonApiResultBloc>(
           create: (_) => injector<PokemonApiResultBloc>(),
-          child: const PokemonApiResultView(),
+          child: PokemonApiResultView(),
         ),
       ],
       child: MaterialApp(
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const PokemonApiResultView(),
+        home: PokemonApiResultView(),
       ),
     );
   }

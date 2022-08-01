@@ -15,12 +15,14 @@ main() {
         Pokemon(
           id: 1,
           name: 'bulbasaur',
+          types: ['grass'],
           imageURL:
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
         ),
         Pokemon(
           id: 2,
           name: 'ivysaur',
+          types: ['grass'],
           imageURL:
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
         ),
