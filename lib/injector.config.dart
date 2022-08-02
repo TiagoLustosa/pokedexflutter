@@ -10,7 +10,7 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import 'injector.dart' as _i11;
-import 'presenter/bloc/pokemon_api_result_bloc.dart' as _i10;
+import 'presenter/bloc/pokemon_bloc.dart' as _i10;
 import 'repositories/interfaces/i_pokemon_api_result_repository.dart' as _i4;
 import 'repositories/interfaces/i_pokemon_repository.dart' as _i6;
 import 'repositories/pokemon_api_result_repository_implements.dart' as _i5;
@@ -34,8 +34,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i7.PokemonRepositoryImplements(get<_i3.Dio>()));
   gh.factory<_i8.IPokemonService>(() => _i9.PokemonService(
       get<_i4.IPokemonApiResultRepository>(), get<_i6.IPokemonRepository>()));
-  gh.factory<_i10.PokemonApiResultBloc>(() =>
-      _i10.PokemonApiResultBloc(pokemonService: get<_i8.IPokemonService>()));
+  gh.factory<_i10.PokemonBloc>(
+      () => _i10.PokemonBloc(pokemonService: get<_i8.IPokemonService>()));
   return get;
 }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/injector.dart';
-import 'package:pokedex/presenter/bloc/pokemon_api_result_bloc.dart';
+import 'package:pokedex/presenter/bloc/pokemon_bloc.dart';
 import 'package:pokedex/presenter/views/pokemon_api_result_view.dart';
 
 void main() {
@@ -15,17 +15,32 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PokemonApiResultBloc>(
-          create: (_) => injector<PokemonApiResultBloc>(),
-          child: PokemonApiResultView(),
+        BlocProvider<PokemonBloc>(
+          create: (_) => injector<PokemonBloc>(),
+          child: const PokemonView(),
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: PokemonApiResultView(),
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) {
+          return Theme(
+              data: ThemeData(
+                textTheme: const TextTheme(
+                  headline5: TextStyle(
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  headline6: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              child: const PokemonView());
+        },
       ),
     );
   }

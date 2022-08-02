@@ -11,17 +11,12 @@ class PokemonService implements IPokemonService {
 
   PokemonService(this._pokemonApiResultRepository, this._pokemonRepository);
   @override
-  Future<List<Pokemon>> getPokemons() async {
+  Future<List<Pokemon>> getPokemons(int page) async {
     final pokemonApiResult =
-        await _pokemonApiResultRepository.getPokemonApiResult();
-    if (pokemonApiResult is Exception) {
-      throw Exception();
-    }
+        await _pokemonApiResultRepository.getPokemonApiResult(page);
+
     final pokemons = await _pokemonRepository.getMultiplePokemonsById(
         pokemonApiResult.results.map((result) => result.url).toList());
-    if (pokemons is Exception) {
-      throw Exception();
-    }
     return pokemons;
   }
 }

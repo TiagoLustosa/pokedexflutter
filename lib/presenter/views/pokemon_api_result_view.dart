@@ -1,75 +1,121 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/presenter/bloc/pokemon_api_result_bloc.dart';
+import 'package:pokedex/presenter/bloc/pokemon_bloc.dart';
 import 'package:pokedex/presenter/components/pokemon_text_widget.dart';
 import 'package:pokedex/presenter/components/pokemon_widget.dart';
 import 'package:pokedex/utils/responsive.dart';
 
-class PokemonApiResultView extends StatelessWidget {
-  const PokemonApiResultView({Key? key}) : super(key: key);
+class PokemonView extends StatefulWidget {
+  const PokemonView({Key? key}) : super(key: key);
+
+  @override
+  State<PokemonView> createState() => _PokemonViewState();
+}
+
+class _PokemonViewState extends State<PokemonView> {
+  final scrollController = ScrollController();
+  late PokemonState _pokemonState;
+  int page = 0;
+  dynamic test;
+  @override
+  void initState() {
+    super.initState();
+    scrollController
+      ..removeListener(_onScroll)
+      ..addListener(_onScroll);
+    BlocProvider.of<PokemonBloc>(context).add(GetPokemonsEvent(0));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  void _onScroll() {
+    if ((scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent) &&
+        (_pokemonState is! PokemonLoading)) {
+      page++;
+
+      BlocProvider.of<PokemonBloc>(context).add(GetPokemonsEvent(page));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromRGBO(14, 14, 14, 1),
       appBar: AppBar(
-        title: const Text(
+        backgroundColor: Colors.black12,
+        title: Text(
           'Pokedex',
-          style: TextStyle(color: Colors.black),
+          style: Theme.of(context).textTheme.headline6,
         ),
-        elevation: 0,
-        backgroundColor: Colors.grey[200],
       ),
-      body: BlocBuilder<PokemonApiResultBloc, PokemonApiResultState>(
-        bloc: context.read<PokemonApiResultBloc>()..add(GetPokemonsEvent()),
+      body: BlocBuilder<PokemonBloc, PokemonState>(
         builder: (context, state) {
-          if (state is PokemonApiResultLoading) {
+          _pokemonState = state;
+          if (state is PokemonLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (state is PokemonApiResultSuccess) {
-            return RefreshIndicator(
-              onRefresh: () async =>
-                  context.read<PokemonApiResultBloc>().add(GetPokemonsEvent()),
-              child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 1.2,
-                      crossAxisCount: Responsive(context).orientation ==
-                              Orientation.portrait
-                          ? 2
-                          : 3),
-                  itemCount: state.pokemons.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      clipBehavior: Clip.hardEdge,
-                      color: state.pokemons[index].color,
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Stack(
-                            alignment: const Alignment(1.8, 2.8),
-                            children: [
-                              PokemonWidget(
-                                  color: state.pokemons[index].color,
-                                  imageUrl: state.pokemons[index].imageURL),
-                              PokemonTextWidget(
-                                  color: state.pokemons[index].color
-                                      as MaterialColor,
-                                  name: state.pokemons[index].name,
-                                  types: state.pokemons[index].types)
-                            ]),
-                      ),
+          if (state is PokemonSuccess) {
+            return GridView.builder(
+                controller: scrollController,
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 1.0,
+                  crossAxisCount: Responsive(context).isLandscape ? 3 : 2,
+                ),
+                itemCount: state.pokemons.length,
+                itemBuilder: (context, index) {
+                  if (index >= state.pokemons.length - 1) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Loading more pokemons...',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ],
                     );
-                  }),
-            );
+                  }
+
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    clipBehavior: Clip.hardEdge,
+                    color: state.pokemons[index].color,
+                    elevation: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Stack(
+                          alignment: const Alignment(1.4, 1.4),
+                          children: [
+                            PokemonWidget(
+                                color: state.pokemons[index].color,
+                                imageUrl: state.pokemons[index].imageURL),
+                            PokemonTextWidget(
+                                color: state.pokemons[index].color
+                                    as MaterialColor,
+                                name: state.pokemons[index].name,
+                                types: state.pokemons[index].types,
+                                textColor: state.pokemons[index].textColor),
+                          ]),
+                    ),
+                  );
+                });
           }
-          return const Scaffold(
-            body: Center(
-              child: Text('PokemonApiResultView'),
-            ),
+          return const Center(
+            child: Text('Pokedex'),
           );
         },
       ),

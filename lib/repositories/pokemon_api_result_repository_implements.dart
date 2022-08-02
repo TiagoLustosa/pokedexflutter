@@ -11,9 +11,12 @@ class PokemonApiResultRepositoryImplements
 
   PokemonApiResultRepositoryImplements(this._dio);
   @override
-  Future<PokemonApiResult> getPokemonApiResult() async {
+  Future<PokemonApiResult> getPokemonApiResult(int page) async {
     try {
-      final response = await _dio.get(pokemonBaseURL);
+      final response = await _dio.get(pokemonBaseURL, queryParameters: {
+        'limit': 20,
+        'offset': (page * 20).toString(),
+      });
       if (response.statusCode == 200 && response.data != null) {
         return PokemonApiResult.fromJson(response.data);
       } else {

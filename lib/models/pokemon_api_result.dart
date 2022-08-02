@@ -15,7 +15,7 @@ class PokemonApiResult {
         .map((result) => PokemonApiResultItem.fromJson(result))
         .toList();
     return PokemonApiResult(
-      next: json['next'],
+      next: json['next'] ?? '',
       previous: json['previous'] ?? '',
       results: results,
     );

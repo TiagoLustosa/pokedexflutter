@@ -10,7 +10,8 @@ class PokemponApiResultMock extends Mock
 void main() {
   final pokemonApiResultRepository = PokemponApiResultMock();
   test('should return a PokemonApiResult', () async {
-    when(() => pokemonApiResultRepository.getPokemonApiResult()).thenAnswer(
+    when(() => pokemonApiResultRepository.getPokemonApiResult(any()))
+        .thenAnswer(
       (_) => Future.value(
         PokemonApiResult(
           next: 'next',
@@ -24,14 +25,14 @@ void main() {
         ),
       ),
     );
-    final result = await pokemonApiResultRepository.getPokemonApiResult();
+    final result = await pokemonApiResultRepository.getPokemonApiResult(any());
     expect(result, isA<PokemonApiResult>());
   });
 
   test('should return an exception', () async {
-    when(() => pokemonApiResultRepository.getPokemonApiResult())
-        .thenThrow(Exception());
-    expect(() => pokemonApiResultRepository.getPokemonApiResult(),
+    when(() => pokemonApiResultRepository.getPokemonApiResult(any()))
+        .thenThrow(Exception(any()));
+    expect(() => pokemonApiResultRepository.getPokemonApiResult(any()),
         throwsA(isA<Exception>()));
   });
 }

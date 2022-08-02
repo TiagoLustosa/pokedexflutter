@@ -10,7 +10,7 @@ class PokemonServiceMock extends Mock implements IPokemonService {}
 main() {
   final pokemonServiceMock = PokemonServiceMock();
   test('should return a list of pokemons', () async {
-    when(() => pokemonServiceMock.getPokemons()).thenAnswer((_) async {
+    when(() => pokemonServiceMock.getPokemons(any())).thenAnswer((_) async {
       return [
         Pokemon(
           id: 1,
@@ -28,7 +28,7 @@ main() {
         ),
       ];
     });
-    final pokemons = await pokemonServiceMock.getPokemons();
+    final pokemons = await pokemonServiceMock.getPokemons(any());
     expect(pokemons, isA<List<Pokemon>>());
     expect(pokemons[1].name, 'ivysaur');
   });

@@ -19,15 +19,19 @@ class PokemonRepositoryImplements implements IPokemonRepository {
         throw Exception();
       }
     } catch (e) {
-      throw Exception();
+      rethrow;
     }
   }
 
   @override
   Future<List<Pokemon>> getMultiplePokemonsById(List<String> urls) async {
-    final response = await Future.wait(urls.map((url) async {
-      return await _dio.get(url);
-    }));
-    return response.map((res) => Pokemon.fromJson(res.data)).toList();
+    try {
+      final response = await Future.wait(urls.map((url) async {
+        return await _dio.get(url);
+      }));
+      return response.map((res) => Pokemon.fromJson(res.data)).toList();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }

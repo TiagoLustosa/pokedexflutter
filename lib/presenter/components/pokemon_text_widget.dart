@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/presenter/components/pokemon_type_text_widget.dart';
 import 'package:pokedex/utils/extensions.dart';
-import 'package:pokedex/utils/responsive.dart';
 
 class PokemonTextWidget extends StatelessWidget {
   final String name;
   final List<String> types;
   final MaterialColor color;
+  final Color textColor;
 
   const PokemonTextWidget({
     Key? key,
     required this.name,
     required this.types,
     required this.color,
+    required this.textColor,
   }) : super(key: key);
 
   @override
@@ -19,14 +21,19 @@ class PokemonTextWidget extends StatelessWidget {
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Row(
         children: [
-          Container(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Text(
-              name.toFirstUpperCase(),
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Responsive(context).fontSize(20)),
+          Flexible(
+            child: Container(
+              padding: const EdgeInsets.only(
+                bottom: 16,
+              ),
+              child: Text(
+                overflow: TextOverflow.ellipsis,
+                name.toFirstUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: textColor),
+              ),
             ),
           ),
         ],
@@ -40,29 +47,16 @@ class PokemonTextWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.only(
-                      top: 7, bottom: 7, left: 10, right: 10),
-                  margin: const EdgeInsets.only(bottom: 8),
-                  decoration: BoxDecoration(
-                      color: color[400],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    types[0].toFirstUpperCase(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
+                PokemonTypeText(
+                  type: types[0].toFirstUpperCase(),
+                  color: color,
+                  textColor: textColor,
                 ),
                 if (types.length > 1)
-                  Container(
-                    padding: const EdgeInsets.only(
-                        top: 7, bottom: 7, left: 10, right: 10),
-                    decoration: BoxDecoration(
-                        color: color[400],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      types[1].toFirstUpperCase(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
+                  PokemonTypeText(
+                    type: types[1].toFirstUpperCase(),
+                    color: color,
+                    textColor: textColor,
                   ),
               ],
             ),
