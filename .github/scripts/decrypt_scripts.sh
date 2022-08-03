@@ -1,7 +1,6 @@
 #!/bin/sh
 # --batch to prevent interactive command
 # --yes to assume "yes" for questions
-echo $ANDROID_KEYS_ZIP_PASSPHRASE
 gpg --quiet --batch --yes --pinentry loopback --passphrase=$ANDROID_KEYS_SECRET_PASSPHRASE --output android/key_files.zip --decrypt android/key_files.zip.gpg  
 echo 
 cd android && jar xvf key_files.zip && cd -
