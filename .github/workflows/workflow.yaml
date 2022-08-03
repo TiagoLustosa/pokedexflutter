@@ -5,12 +5,12 @@ on:
       - main
 jobs:
   build:
+        env: 
+          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+      
     name: Build
     runs-on: ubuntu-latest
     steps:
-        env: 
-          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
-        run: echo ANDROID_KEYS_SECRET_PASSPHRASE is ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
       - name: Get Repository
         uses: actions/checkout@v3
       - name: Get folder structure
@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-
+        run: echo ${env:ANDROID_KEYS_SECRET_PASSPHRASE}
       - name: Decrypt Android keys
         run: bash ./.github/scripts/decrypt_scripts.sh
 
