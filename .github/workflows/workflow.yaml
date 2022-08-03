@@ -27,9 +27,9 @@ jobs:
       - name: Decrypt Android keys        
         run: bash ./.github/scripts/decrypt_scripts.sh  
       - name: Show files        
-        run: whereis key.properties
+        run: find / -type f -name key.properties
       - name: Show files        
-        run: whereis upload-keystore.jks
+        run: find / -type f -name sample.txt upload-keystore.jks
         
       - name: Update KeyStore password in gradle properties
         run: sed -i 's/#{KEYSTORE_PASS}#/${{ secrets.KEYSTORE_PASS }}/g' android/key.properties
