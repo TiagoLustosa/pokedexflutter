@@ -13,26 +13,26 @@ jobs:
         uses: actions/checkout@v3
       - name: Get folder structure
         run: ls -lha
-      # - name: Setup Java
-      #   uses: actions/setup-java@v1
-      #   with:
-      #     java-version: '12.x'
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
 
-      # - name: Decrypt Android keys
-      #   run: bash ./github/scripts/decrypt_scripts.sh
-      #   env: 
-      #     ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+      - name: Decrypt Android keys
+        run: bash ./.github/scripts/decrypt_scripts.sh
+        env: 
+          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
 
-      # - name: Setup Flutter SDK
-      #   uses: subosito/flutter-action@v2.6.1
-      #   with:
-      #     flutter-version: '3.0.5'
-      #     channel: 'stable'
-      # - run: flutter --version
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2.6.1
+        with:
+          flutter-version: '3.0.5'
+          channel: 'stable'
+      - run: flutter --version
       
-      # - name: Run Flutter Pub Get
-      #   run: flutter pub get
+      - name: Run Flutter Pub Get
+        run: flutter pub get
 
-      # - name: Build app bundle
-      #   run: flutter build appbundle
+      - name: Build app bundle
+        run: flutter build appbundle
 
