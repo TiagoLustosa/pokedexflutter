@@ -19,9 +19,8 @@ jobs:
           java-version: '12.x'
 
       - name: Decrypt Android keys
-        env: 
-          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
         run: bash ./.github/scripts/decrypt_scripts.sh
+        env: ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
 
       - name: Setup Flutter SDK
         uses: subosito/flutter-action@v2.6.1
