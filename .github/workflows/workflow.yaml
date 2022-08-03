@@ -3,24 +3,28 @@ on:
   push:
     branches:
       - main
-jobs:
-  build:
-        env: 
-          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
       
-    name: Build
+jobs:
+  build:  
+    env: 
+      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }} 
     runs-on: ubuntu-latest
     steps:
       - name: Get Repository
         uses: actions/checkout@v3
+        
       - name: Get folder structure
         run: ls -lha
+        
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: '12.x' 
+          
+      - name: Check secret
         run: echo ${env:ANDROID_KEYS_SECRET_PASSPHRASE}
-      - name: Decrypt Android keys
+        
+      - name: Decrypt Android keys        
         run: bash ./.github/scripts/decrypt_scripts.sh
 
       - name: Setup Flutter SDK
