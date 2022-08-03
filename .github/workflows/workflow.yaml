@@ -67,7 +67,7 @@ jobs:
 
       with:
         serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-        packageName: com.example.pokedex
+        packageName: com.example.mypokedexflutter
         releaseFiles: app-release.aab
         track: internal
         whatsNewDirectory: distribution/whatsnew
