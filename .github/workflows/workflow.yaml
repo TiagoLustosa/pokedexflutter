@@ -22,7 +22,7 @@ jobs:
           java-version: '12.x' 
           
       - name: Check secret
-        run: echo ${env:ANDROID_KEYS_SECRET_PASSPHRASE}
+        run: echo $ANDROID_KEYS_SECRET_PASSPHRASE
         
       - name: Decrypt Android keys        
         run: bash ./.github/scripts/decrypt_scripts.sh
