@@ -8,11 +8,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      -name: Get folder structure
-      run: ls -lha
-      # - name: Get Repository
-      #   uses: actions/checkout@v3
-
+     
+      - name: Get Repository
+        uses: actions/checkout@v3
+      - name: Get folder structure
+        run: ls -lha
       # - name: Setup Java
       #   uses: actions/setup-java@v1
       #   with:
