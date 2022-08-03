@@ -26,26 +26,47 @@ jobs:
         
       - name: Decrypt Android keys        
         run: bash ./.github/scripts/decrypt_scripts.sh  
-      - name: Show files        
-        run: find ./android
-      - name: Show files        
-        run: find ./android -type f -name upload-keystore.jks
         
       - name: Update KeyStore password in gradle properties
         run: sed -i 's/#{KEYSTORE_PASS}#/${{ secrets.KEYSTORE_PASS }}/g' android/key.properties
+        
       - name: Update KeyStore key password in gradle properties
         run: sed -i 's/#{KEYSTORE_KEY_PASS}#/${{ secrets.KEYSTORE_KEY_PASS }}/g' android/key.properties
+        
 
-     # - name: Setup Flutter SDK
-     #   uses: subosito/flutter-action@v2.6.1
-     #   with:
-     #     flutter-version: '3.0.5'
-     #     channel: 'stable'
-     # - run: flutter --version
-      
-     # - name: Run Flutter Pub Get
-     #   run: flutter pub get
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2.6.1
+        with:
+          flutter-version: '3.0.5'
+          channel: 'stable'
+      - run: flutter --version
+     
+      - name: Run Flutter Pub Get
+        run: flutter pub get
 
-     # - name: Build app bundle
-     #   run: flutter build appbundle
+      - name: Build app bundle
+        run: flutter build appbundle
 
+      - name: Upload app bundle     
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+  release:
+    name: Release app to internal track
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get appbundle from artifacts
+      uses: actions/download-artifact@v3.0.0
+      with:
+        name: appbundle
+    - name: Release app to internal track
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
+        packageName: com.flutterpokedex
+        releaseFile: app-release.aab
+        track: internal
+        whatsNewDirectory: distribution/whatsnew
