@@ -17,7 +17,7 @@ jobs:
           java-version: '12.x'
 
       - name: Decrypt Android keys
-        run: sh ./github/scripts/decrypt_scripts.sh
+        run: bash ./github/scripts/decrypt_scripts.sh
         env: 
           ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
 
