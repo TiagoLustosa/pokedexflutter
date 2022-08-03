@@ -1,10 +1,10 @@
 part of 'pokemon_bloc.dart';
 
-@immutable
-abstract class PokemonEvent {}
+abstract class PokemonEvent extends Equatable {
+  @override
+  List<Object> get props => [];
+}
 
 class GetPokemonsEvent extends PokemonEvent {
-  final int page;
-
-  GetPokemonsEvent(this.page);
+  GetPokemonsEvent();
 }

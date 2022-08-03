@@ -11,9 +11,9 @@ class PokemonService implements IPokemonService {
 
   PokemonService(this._pokemonApiResultRepository, this._pokemonRepository);
   @override
-  Future<List<Pokemon>> getPokemons(int page) async {
+  Future<List<Pokemon>> getPokemons([int startIndex = 0]) async {
     final pokemonApiResult =
-        await _pokemonApiResultRepository.getPokemonApiResult(page);
+        await _pokemonApiResultRepository.getPokemonApiResult(startIndex);
 
     final pokemons = await _pokemonRepository.getMultiplePokemonsById(
         pokemonApiResult.results.map((result) => result.url).toList());

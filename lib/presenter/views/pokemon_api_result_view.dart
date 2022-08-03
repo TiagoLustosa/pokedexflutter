@@ -13,112 +13,125 @@ class PokemonView extends StatefulWidget {
 }
 
 class _PokemonViewState extends State<PokemonView> {
-  final scrollController = ScrollController();
-  late PokemonState _pokemonState;
+  final _scrollController = ScrollController();
+  // late PokemonState _pokemonState;
   int page = 0;
   dynamic test;
   @override
   void initState() {
     super.initState();
-    scrollController
+    _scrollController
       ..removeListener(_onScroll)
       ..addListener(_onScroll);
-    BlocProvider.of<PokemonBloc>(context).add(GetPokemonsEvent(0));
+    BlocProvider.of<PokemonBloc>(context).add(GetPokemonsEvent());
   }
 
   @override
   void dispose() {
     super.dispose();
-    scrollController.dispose();
+    _scrollController.dispose();
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= maxScroll * 0.9;
   }
 
   void _onScroll() {
-    if ((scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent) &&
-        (_pokemonState is! PokemonLoading)) {
-      page++;
-
-      BlocProvider.of<PokemonBloc>(context).add(GetPokemonsEvent(page));
-    }
+    if (_isBottom) context.read<PokemonBloc>().add(GetPokemonsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(14, 14, 14, 1),
-      appBar: AppBar(
-        backgroundColor: Colors.black12,
-        title: Text(
-          'Pokedex',
-          style: Theme.of(context).textTheme.headline6,
+        backgroundColor: const Color.fromRGBO(14, 14, 14, 1),
+        appBar: AppBar(
+          backgroundColor: Colors.black12,
+          title: Text(
+            'Pokedex',
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
-      ),
-      body: BlocBuilder<PokemonBloc, PokemonState>(
-        builder: (context, state) {
-          _pokemonState = state;
-          if (state is PokemonLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is PokemonSuccess) {
-            return GridView.builder(
-                controller: scrollController,
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 1.0,
-                  crossAxisCount: Responsive(context).isLandscape ? 3 : 2,
-                ),
-                itemCount: state.pokemons.length,
-                itemBuilder: (context, index) {
-                  if (index >= state.pokemons.length - 1) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Loading more pokemons...',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      ],
-                    );
-                  }
+        body: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
+          switch (state.status) {
+            case PokemonsStatus.error:
+              return Center(
+                child: Text('Failed to fetch pokemons',
+                    style: Theme.of(context).textTheme.headline6),
+              );
 
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    clipBehavior: Clip.hardEdge,
-                    color: state.pokemons[index].color,
-                    elevation: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Stack(
-                          alignment: const Alignment(1.4, 1.4),
-                          children: [
-                            PokemonWidget(
-                                color: state.pokemons[index].color,
-                                imageUrl: state.pokemons[index].imageURL),
-                            PokemonTextWidget(
-                                color: state.pokemons[index].color
-                                    as MaterialColor,
-                                name: state.pokemons[index].name,
-                                types: state.pokemons[index].types,
-                                textColor: state.pokemons[index].textColor),
-                          ]),
-                    ),
-                  );
-                });
+            case PokemonsStatus.success:
+              return GridView.builder(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 1.0,
+                    crossAxisCount: Responsive(context).isLandscape ? 3 : 2,
+                  ),
+                  itemCount: state.hasReachedMax
+                      ? state.pokemons.length
+                      : state.pokemons.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index >= state.pokemons.length) {
+                      if (state.pokemons.isEmpty) {
+                        return const Center(
+                            child: Text(
+                          'No more pokemons',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 150,
+                          ),
+                        ));
+                      }
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Loading more pokemons...',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ],
+                      );
+                    }
+
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      clipBehavior: Clip.hardEdge,
+                      color: state.pokemons[index].color,
+                      elevation: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Stack(
+                            alignment: const Alignment(1.4, 1.4),
+                            children: [
+                              PokemonWidget(
+                                  color: state.pokemons[index].color,
+                                  imageUrl: state.pokemons[index].imageURL),
+                              PokemonTextWidget(
+                                  color: state.pokemons[index].color
+                                      as MaterialColor,
+                                  name: state.pokemons[index].name,
+                                  types: state.pokemons[index].types,
+                                  textColor: state.pokemons[index].textColor),
+                            ]),
+                      ),
+                    );
+                  });
+            case PokemonsStatus.initial:
+              return const Center(child: CircularProgressIndicator());
           }
-          return const Center(
-            child: Text('Pokedex'),
-          );
-        },
-      ),
-    );
+        }));
   }
 }
