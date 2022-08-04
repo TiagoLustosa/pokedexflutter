@@ -1,8 +1,8 @@
 name: Flutter Workflow
-on:
-  push:
-    branches:
-      - main
+# on:    
+  # push:
+  #   branches:
+  #     - main
       
 jobs:
   build:  
@@ -67,7 +67,7 @@ jobs:
 
       with:
         serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-        packageName: com.example.mypokedexflutter
+        packageName: com.teste.mypokedexflutter
         releaseFiles: app-release.aab
         track: internal
         whatsNewDirectory: distribution/whatsnew
