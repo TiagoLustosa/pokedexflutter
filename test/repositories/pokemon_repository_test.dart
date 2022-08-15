@@ -25,7 +25,8 @@ main() {
         defense: 47,
         specialAttack: 85,
         specialDefense: 52,
-        speed: 25));
+        speed: 25,
+        isFavorite: false));
     final pokemon = await pokemonRepository
         .getPokemonById('https://pokeapi.co/api/v2/pokemon/1');
     expect(pokemon.imageURL,

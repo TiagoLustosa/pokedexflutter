@@ -23,6 +23,7 @@ main() {
           weight: 69,
           abilities: ['overgrow'],
           types: ['grass'],
+          isFavorite: false,
           imageURL:
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
         ),
@@ -39,6 +40,7 @@ main() {
           weight: 70,
           abilities: ['overgrow'],
           types: ['grass'],
+          isFavorite: false,
           imageURL:
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
         ),

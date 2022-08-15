@@ -29,7 +29,8 @@ main() {
                   defense: 47,
                   specialAttack: 85,
                   specialDefense: 52,
-                  speed: 25)));
+                  speed: 25,
+                  isFavorite: false)));
       return PokemonBloc(pokemonService: pokemonServiceMock);
     },
     act: (bloc) => bloc.add(GetPokemonsEvent()),
