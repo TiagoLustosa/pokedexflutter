@@ -14,6 +14,7 @@ class Pokemon {
   final int specialAttack;
   final int specialDefense;
   final int speed;
+  bool isFavorite = false;
 
   Pokemon({
     required this.id,
@@ -29,6 +30,7 @@ class Pokemon {
     required this.specialAttack,
     required this.specialDefense,
     required this.speed,
+    required this.isFavorite,
   });
 
 // create from json
@@ -55,6 +57,7 @@ class Pokemon {
       specialAttack: json['stats'][3]['base_stat'],
       specialDefense: json['stats'][4]['base_stat'],
       speed: json['stats'][5]['base_stat'],
+      isFavorite: false,
     );
   }
 

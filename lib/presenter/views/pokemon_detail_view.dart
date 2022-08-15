@@ -17,7 +17,6 @@ class PokemonDetailView extends StatefulWidget {
 }
 
 class _PokemonDetailViewState extends State<PokemonDetailView> {
-  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     final Pokemon pokemon =
@@ -28,7 +27,7 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
         backgroundColor: Colors.black87,
         actions: [
           IconButton(
-            icon: isFavorite
+            icon: pokemon.isFavorite
                 ? const Icon(
                     Icons.favorite,
                     color: Colors.red,
@@ -38,7 +37,7 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
                   ),
             onPressed: () {
               setState(() {
-                isFavorite = !isFavorite;
+                pokemon.isFavorite = !pokemon.isFavorite;
               });
             },
           ),
