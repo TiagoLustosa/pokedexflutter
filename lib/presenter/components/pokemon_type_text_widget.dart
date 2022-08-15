@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class PokemonTypeText extends StatelessWidget {
   final String type;
   final MaterialColor color;
-  final Color textColor;
+  final TextStyle? textStyle;
   const PokemonTypeText(
       {Key? key,
       required this.type,
       required this.color,
-      required this.textColor})
+      required this.textStyle})
       : super(key: key);
 
   @override
@@ -23,10 +23,10 @@ class PokemonTypeText extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
           color: color[400], borderRadius: BorderRadius.circular(10)),
-      child: Text(type,
-          style: Theme.of(context).textTheme.headline5?.copyWith(
-                color: textColor,
-              )),
+      child: Text(
+        type,
+        style: textStyle,
+      ),
     );
   }
 }

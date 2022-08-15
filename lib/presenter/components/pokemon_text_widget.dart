@@ -50,13 +50,17 @@ class PokemonTextWidget extends StatelessWidget {
                 PokemonTypeText(
                   type: types[0].toFirstUpperCase(),
                   color: color,
-                  textColor: textColor,
+                  textStyle: Theme.of(context).textTheme.headline5?.copyWith(
+                        color: textColor,
+                      ),
                 ),
                 if (types.length > 1)
                   PokemonTypeText(
                     type: types[1].toFirstUpperCase(),
                     color: color,
-                    textColor: textColor,
+                    textStyle: Theme.of(context).textTheme.headline5?.copyWith(
+                          color: textColor,
+                        ),
                   ),
               ],
             ),

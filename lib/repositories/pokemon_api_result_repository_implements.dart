@@ -14,7 +14,7 @@ class PokemonApiResultRepositoryImplements
   Future<PokemonApiResult> getPokemonApiResult([int startIndex = 0]) async {
     try {
       final response = await _dio.get(pokemonBaseURL, queryParameters: {
-        'limit': 200,
+        'limit': 20,
         'offset': startIndex.toString(),
       });
       if (response.statusCode == 200 && response.data != null) {

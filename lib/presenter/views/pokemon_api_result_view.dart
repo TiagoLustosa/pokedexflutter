@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/presenter/bloc/pokemon_bloc.dart';
 import 'package:pokedex/presenter/components/pokemon_text_widget.dart';
-import 'package:pokedex/presenter/components/pokemon_widget.dart';
+import 'package:pokedex/presenter/components/pokemon_grid_widget.dart';
 import 'package:pokedex/utils/responsive.dart';
 
 class PokemonView extends StatefulWidget {
@@ -14,9 +14,7 @@ class PokemonView extends StatefulWidget {
 
 class _PokemonViewState extends State<PokemonView> {
   final _scrollController = ScrollController();
-  // late PokemonState _pokemonState;
   int page = 0;
-  dynamic test;
   @override
   void initState() {
     super.initState();
@@ -105,27 +103,31 @@ class _PokemonViewState extends State<PokemonView> {
                       );
                     }
 
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      clipBehavior: Clip.hardEdge,
-                      color: state.pokemons[index].color,
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Stack(
-                            alignment: const Alignment(1.4, 1.4),
-                            children: [
-                              PokemonWidget(
-                                  color: state.pokemons[index].color,
-                                  imageUrl: state.pokemons[index].imageURL),
-                              PokemonTextWidget(
-                                  color: state.pokemons[index].color
-                                      as MaterialColor,
-                                  name: state.pokemons[index].name,
-                                  types: state.pokemons[index].types,
-                                  textColor: state.pokemons[index].textColor),
-                            ]),
+                    return GestureDetector(
+                      onTap: () => Navigator.of(context).pushNamed('/detail',
+                          arguments: state.pokemons[index]),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        clipBehavior: Clip.hardEdge,
+                        color: state.pokemons[index].color,
+                        elevation: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Stack(
+                              alignment: const Alignment(1.4, 1.4),
+                              children: [
+                                PokemonGridWidget(
+                                    color: state.pokemons[index].color,
+                                    imageUrl: state.pokemons[index].imageURL),
+                                PokemonTextWidget(
+                                    color: state.pokemons[index].color
+                                        as MaterialColor,
+                                    name: state.pokemons[index].name,
+                                    types: state.pokemons[index].types,
+                                    textColor: state.pokemons[index].textColor),
+                              ]),
+                        ),
                       ),
                     );
                   });
