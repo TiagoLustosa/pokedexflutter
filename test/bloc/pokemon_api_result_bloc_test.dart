@@ -1,40 +1,40 @@
-// import 'package:bloc_test/bloc_test.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mocktail/mocktail.dart';
-// import 'package:pokedex/models/pokemon_api_result.dart';
-// import 'package:pokedex/presenter/bloc/pokemon_api_result_bloc.dart';
-// import 'package:pokedex/repositories/interfaces/i_pokemon_api_result_repository.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/presenter/bloc/pokemon_bloc.dart';
+import 'package:pokedex/services/interfaces/i_pokemon_service.dart';
 
-// class PokemonApiResultRepositoryMock extends Mock
-//     implements IPokemonApiResultRepository {}
+class PokemonServiceMock extends Mock implements IPokemonService {}
 
-// main() {
-//   final pokemonApiResultRepositoryMock = PokemonApiResultRepositoryMock();
+main() {
+  final pokemonServiceMock = PokemonServiceMock();
 
-//   blocTest<PokemonApiResultBloc, PokemonApiResultState>(
-//     'should return loading and success states',
-//     build: () {
-//       when(() => pokemonApiResultRepositoryMock.getPokemonApiResult())
-//           .thenAnswer((_) async =>
-//               PokemonApiResult(next: '', previous: '', results: []));
-//       return PokemonApiResultBloc(
-//           pokemonApiResultRepository: pokemonApiResultRepositoryMock);
-//     },
-//     act: (bloc) => bloc.add(GetPokemonApiResult()),
-//     expect: () => [
-//       isA<PokemonApiResultLoading>(),
-//       isA<PokemonApiResultSuccess>(),
-//     ],
-//   );
-//   blocTest<PokemonApiResultBloc, PokemonApiResultState>(
-//     'should return an exception',
-//     build: () {
-//       when(() => pokemonApiResultRepositoryMock.getPokemonApiResult())
-//           .thenThrow(Exception());
-//       return PokemonApiResultBloc(
-//           pokemonApiResultRepository: pokemonApiResultRepositoryMock);
-//     },
-//     act: (bloc) => bloc.add(GetPokemonApiResult()),
-//     errors: () => [isA<Exception>()],
-//   );
-// }
+  blocTest<PokemonBloc, PokemonState>(
+    'should return states',
+    build: () {
+      when(() => pokemonServiceMock.getPokemons(0)).thenAnswer((_) async =>
+          List<Pokemon>.generate(
+              20,
+              (index) => Pokemon(
+                  id: 1,
+                  name: 'bulbasaur',
+                  imageURL: 'imageURL',
+                  types: ['types'],
+                  height: 7,
+                  weight: 69,
+                  abilities: ['abilities'],
+                  hp: 70,
+                  attack: 55,
+                  defense: 47,
+                  specialAttack: 85,
+                  specialDefense: 52,
+                  speed: 25)));
+      return PokemonBloc(pokemonService: pokemonServiceMock);
+    },
+    act: (bloc) => bloc.add(GetPokemonsEvent()),
+    expect: () => [
+      isA<PokemonState>(),
+    ],
+  );
+}

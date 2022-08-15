@@ -25,14 +25,14 @@ void main() {
         ),
       ),
     );
-    final result = await pokemonApiResultRepository.getPokemonApiResult(any());
+    final result = await pokemonApiResultRepository.getPokemonApiResult();
     expect(result, isA<PokemonApiResult>());
   });
 
   test('should return an exception', () async {
     when(() => pokemonApiResultRepository.getPokemonApiResult(any()))
-        .thenThrow(Exception(any()));
-    expect(() => pokemonApiResultRepository.getPokemonApiResult(any()),
+        .thenThrow(Exception());
+    expect(() => pokemonApiResultRepository.getPokemonApiResult(),
         throwsA(isA<Exception>()));
   });
 }

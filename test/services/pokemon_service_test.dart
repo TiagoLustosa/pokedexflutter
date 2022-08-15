@@ -3,8 +3,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/services/interfaces/i_pokemon_service.dart';
 
-// class PokemonRepositoryMock extends Mock implements IPokemonRepository {}
-// class PokemonApiResultRepositoryMock extends Mock implements IPokemonApiResultRepository {}
 class PokemonServiceMock extends Mock implements IPokemonService {}
 
 main() {
@@ -15,20 +13,38 @@ main() {
         Pokemon(
           id: 1,
           name: 'bulbasaur',
+          specialAttack: 50,
+          specialDefense: 65,
+          speed: 45,
+          hp: 75,
+          attack: 49,
+          defense: 49,
+          height: 7,
+          weight: 69,
+          abilities: ['overgrow'],
           types: ['grass'],
           imageURL:
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
         ),
         Pokemon(
-          id: 2,
+          id: 1,
           name: 'ivysaur',
+          specialAttack: 55,
+          specialDefense: 75,
+          speed: 65,
+          hp: 95,
+          attack: 88,
+          defense: 78,
+          height: 7,
+          weight: 70,
+          abilities: ['overgrow'],
           types: ['grass'],
           imageURL:
-              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
+              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
         ),
       ];
     });
-    final pokemons = await pokemonServiceMock.getPokemons(any());
+    final pokemons = await pokemonServiceMock.getPokemons();
     expect(pokemons, isA<List<Pokemon>>());
     expect(pokemons[1].name, 'ivysaur');
   });
