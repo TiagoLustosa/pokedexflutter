@@ -33,10 +33,10 @@ class PokemonImageWidget extends StatelessWidget {
         }
         return Padding(
           padding: const EdgeInsets.only(
-            top: 34,
-            bottom: 26,
-            left: 38,
-            right: 26,
+            top: 0,
+            bottom: 32,
+            left: 0,
+            right: 28,
           ),
           child: SizedBox(
               width: 50,

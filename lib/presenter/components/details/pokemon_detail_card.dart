@@ -55,10 +55,6 @@ class _PokemonDetailCardState extends State<PokemonDetailCard> {
                   onPressed: () {
                     _controller.jumpToPage(1);
                   }),
-              // const PokemonDetailButton(
-              //     color: Colors.white, text: 'Evolution'),
-              // const PokemonDetailButton(
-              //     color: Colors.white, text: 'Moves'),
             ],
           ),
           SizedBox(
