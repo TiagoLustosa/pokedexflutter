@@ -16,7 +16,7 @@
 default_platform(:android)
 platform :android do
   desc "Deploy to closed beta track"
-  lane :closed_beta do
+  lane :production do
     begin
       gradle(task: "clean")
       gradle(
@@ -24,7 +24,7 @@ platform :android do
         build_type: 'Release'
       )
       upload_to_play_store(
-        track: 'beta',
+        track: 'production',
         aab: '../build/app/outputs/bundle/release/app-release.aab',
         skip_upload_metadata: true,
         skip_upload_images: true,

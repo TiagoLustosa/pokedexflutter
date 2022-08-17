@@ -86,33 +86,5 @@ jobs:
       - name: Run fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:
-          lane: "closed_beta"
+          lane: "production"
           subdirectory: android
-  # release:
-  #   name: Release app to internal track
-  #   needs: [ build ]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Get appbundle from artifacts
-  #     uses: actions/download-artifact@v3.0.0
-  #     with:
-  #       name: appbundle
-
-  #   - uses: actions/checkout@v2
-  #   - uses: ruby/setup-ruby@v1
-  #     with:
-  #       ruby-version: '2.7.2'
-  #   - uses: maierj/fastlane-action@v2.2.0
-  #     with:
-  #       lane: 'closed_beta'
-  #       subdirectory: android
-  # - name: Upload Android Release to Play Store
-  #   uses: r0adkll/upload-google-play@v1.0.17
-
-  #   with:
-  #     serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-  #     packageName: com.teste.mypokedexflutter
-  #     releaseFiles: app-release.aab
-  #     track: internal
-  #     whatsNewDirectory: distribution/whatsnew
