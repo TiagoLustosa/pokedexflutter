@@ -52,25 +52,56 @@ jobs:
         with:
           name: appbundle
           path: build/app/outputs/bundle/release/app-release.aab
-  release:
-    name: Release app to internal track
-    needs: [ build ]
+            deploy_android:
+  name: Deploying to playstore
     runs-on: ubuntu-latest
+    needs: [build_android]
     steps:
-    - uses: actions/checkout@v3
-    - name: Get appbundle from artifacts
-      uses: actions/download-artifact@v3.0.0
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup Java
+      uses: actions/setup-java@v1
       with:
-        name: appbundle
-
-    - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
+        java-version: 12.x
+    - name: Decrypt Android keys
+      run: sh ./.github/scripts/decrypt_secret.sh
+      env:
+        ANDROID_KEYS_ZIP_PASSPHRASE: ${{ secrets.ANDROID_KEYS_ZIP_PASSPHRASE }}
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v1
       with:
-        ruby-version: '2.7.2'
-    - uses: maierj/fastlane-action@v2.2.0
+        flutter-version: 2.0.6
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - name: Upload artifact to Github
+        uses: actions/upload-artifact@v1
+        with:
+          name: release-aab
+          path: build/app/outputs/apk/release/app-release.aab
+    - name: Run fastlane
+      uses: maierj/fastlane-action@v2.2.0
       with:
         lane: 'closed_beta'
         subdirectory: android
+  # release:
+  #   name: Release app to internal track
+  #   needs: [ build ]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Get appbundle from artifacts
+  #     uses: actions/download-artifact@v3.0.0
+  #     with:
+  #       name: appbundle
+
+  #   - uses: actions/checkout@v2
+  #   - uses: ruby/setup-ruby@v1
+  #     with:
+  #       ruby-version: '2.7.2'
+  #   - uses: maierj/fastlane-action@v2.2.0
+  #     with:
+  #       lane: 'closed_beta'
+  #       subdirectory: android
     # - name: Upload Android Release to Play Store
     #   uses: r0adkll/upload-google-play@v1.0.17
 
