@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  build:
+  build_android:
     env:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_ZIP_PASSPHRASE }}
     runs-on: ubuntu-latest
