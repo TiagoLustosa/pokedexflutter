@@ -62,12 +62,21 @@ jobs:
       uses: actions/download-artifact@v3.0.0
       with:
         name: appbundle
-    - name: Upload Android Release to Play Store
-      uses: r0adkll/upload-google-play@v1.0.17
 
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
       with:
-        serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-        packageName: com.teste.mypokedexflutter
-        releaseFiles: app-release.aab
-        track: internal
-        whatsNewDirectory: distribution/whatsnew
+        ruby-version: '2.7.2'
+    - uses: maierj/fastlane-action@v2.2.0
+      with:
+        lane: 'beta'
+        subdirectory: android
+    # - name: Upload Android Release to Play Store
+    #   uses: r0adkll/upload-google-play@v1.0.17
+
+    #   with:
+    #     serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
+    #     packageName: com.teste.mypokedexflutter
+    #     releaseFiles: app-release.aab
+    #     track: internal
+    #     whatsNewDirectory: distribution/whatsnew
