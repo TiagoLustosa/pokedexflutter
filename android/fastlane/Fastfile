@@ -19,7 +19,6 @@ platform :android do
   lane :closed_beta do
     begin
       gradle(task: "clean")
-      gradle(task: "clean assembleRelease", project_dir: 'android/')
       gradle(
         task: "bundle",
         build_type: 'Release'
