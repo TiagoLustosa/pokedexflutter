@@ -31,7 +31,7 @@ class PokemonTextWidget extends StatelessWidget {
                 name.toFirstUpperCase(),
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .bodyMedium
                     ?.copyWith(color: textColor),
               ),
             ),
@@ -50,17 +50,19 @@ class PokemonTextWidget extends StatelessWidget {
                 PokemonTypeText(
                   type: types[0].toFirstUpperCase(),
                   color: color,
-                  textStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                        color: textColor,
-                      ),
+                  textStyle:
+                      Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            color: textColor,
+                          ),
                 ),
                 if (types.length > 1)
                   PokemonTypeText(
                     type: types[1].toFirstUpperCase(),
                     color: color,
-                    textStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                          color: textColor,
-                        ),
+                    textStyle:
+                        Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: textColor,
+                            ),
                   ),
               ],
             ),

@@ -54,7 +54,7 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
                 pokemon.name.toFirstUpperCase(),
                 style: Theme.of(context)
                     .textTheme
-                    .headline1
+                    .headlineLarge
                     ?.copyWith(color: pokemon.textColor),
               ),
             ),
@@ -65,7 +65,7 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
                   child: PokemonTypeText(
                     type: pokemon.types[0].toFirstUpperCase(),
                     color: pokemon.color as MaterialColor,
-                    textStyle: Theme.of(context).textTheme.headline6?.copyWith(
+                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: pokemon.textColor,
                         ),
                   ),
@@ -74,7 +74,7 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
                   PokemonTypeText(
                     type: pokemon.types[1].toFirstUpperCase(),
                     color: pokemon.color as MaterialColor,
-                    textStyle: Theme.of(context).textTheme.headline6?.copyWith(
+                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: pokemon.textColor,
                         ),
                   )

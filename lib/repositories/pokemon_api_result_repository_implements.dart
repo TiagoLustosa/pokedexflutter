@@ -13,7 +13,7 @@ class PokemonApiResultRepositoryImplements
   @override
   Future<PokemonApiResult> getPokemonApiResult([int startIndex = 0]) async {
     try {
-      final response = await _dio.get(pokemonBaseURL, queryParameters: {
+      final response = await _dio.get('pokemon', queryParameters: {
         'limit': 20,
         'offset': startIndex.toString(),
       });

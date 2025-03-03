@@ -1,1 +1,1 @@
-const pokemonBaseURL = 'https://pokeapi.co/api/v2/pokemon';
+const pokemonBaseURL = 'https://pokeapi.co/api/v2/';

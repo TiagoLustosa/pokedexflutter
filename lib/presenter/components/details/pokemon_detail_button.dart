@@ -26,7 +26,7 @@ class PokemonDetailButton extends StatelessWidget {
           child: Text(text,
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headlineMedium
                   ?.copyWith(color: color)),
         ),
       ]),

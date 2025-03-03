@@ -15,14 +15,14 @@ class PokemonRowAbout extends StatelessWidget {
         fit: FlexFit.tight,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(about, style: Theme.of(context).textTheme.headline4),
+          child: Text(about, style: Theme.of(context).textTheme.headlineMedium),
         ),
       ),
       Flexible(
           fit: FlexFit.loose,
           flex: 2,
-          child:
-              Text(aboutValue, style: Theme.of(context).textTheme.headline4)),
+          child: Text(aboutValue,
+              style: Theme.of(context).textTheme.headlineMedium)),
     ]);
   }
 }

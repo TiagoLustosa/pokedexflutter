@@ -6,7 +6,7 @@ import 'package:pokedex/presenter/views/pokemon_api_result_view.dart';
 import 'package:pokedex/presenter/views/pokemon_detail_view.dart';
 
 void main() {
-  configureInjection();
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PokemonBloc>(
-          create: (_) => injector<PokemonBloc>(),
+          create: (_) => getIt<PokemonBloc>(),
           child: const PokemonView(),
         ),
         BlocProvider<PokemonBloc>(
-          create: (_) => injector<PokemonBloc>(),
+          create: (_) => getIt<PokemonBloc>(),
           child: const PokemonDetailView(),
         ),
       ],
@@ -29,24 +29,24 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: const TextTheme(
-            headline1: TextStyle(
+            headlineLarge: TextStyle(
               fontSize: 42,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-            headline4: TextStyle(
+            headlineMedium: TextStyle(
               fontSize: 18,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-            headline5: TextStyle(
+            headlineSmall: TextStyle(
               fontSize: 14,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-            headline6: TextStyle(
+            bodyMedium: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,

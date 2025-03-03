@@ -49,7 +49,7 @@ class _PokemonViewState extends State<PokemonView> {
           backgroundColor: Colors.black12,
           title: Text(
             'Pokedex',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
         body: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
@@ -57,7 +57,7 @@ class _PokemonViewState extends State<PokemonView> {
             case PokemonsStatus.error:
               return Center(
                 child: Text('Failed to fetch pokemons',
-                    style: Theme.of(context).textTheme.headline6),
+                    style: Theme.of(context).textTheme.bodyMedium),
               );
 
             case PokemonsStatus.success:

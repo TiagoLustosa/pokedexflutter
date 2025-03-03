@@ -1,0 +1,2 @@
+C:/projects/pokedex/pokedexflutter/android/app/.cxx/Debug/k2g3uq2w/x86/CMakeFiles/edit_cache.dir
+C:/projects/pokedex/pokedexflutter/android/app/.cxx/Debug/k2g3uq2w/x86/CMakeFiles/rebuild_cache.dir

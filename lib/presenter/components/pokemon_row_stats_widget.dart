@@ -22,12 +22,14 @@ class PokemonRowStats extends StatelessWidget {
           fit: FlexFit.tight,
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0),
-            child: Text(statName, style: Theme.of(context).textTheme.headline4),
+            child: Text(statName,
+                style: Theme.of(context).textTheme.headlineMedium),
           ),
         ),
         SizedBox(
           width: 32,
-          child: Text(statValue, style: Theme.of(context).textTheme.headline4),
+          child: Text(statValue,
+              style: Theme.of(context).textTheme.headlineMedium),
         ),
         Flexible(
           flex: 2,

@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pokedex/injector.config.dart';
+import 'package:pokedex/utils/constants.dart';
 
-final injector = GetIt.instance;
+final getIt = GetIt.instance;
 
 @module
 abstract class RegisterModule {
   @Named('BaseUrl')
-  String get baseUrl => '-----';
+  String get baseUrl => pokemonBaseURL;
   @singleton
   Dio dio(@Named('BaseUrl') String url) {
     final dio = Dio(BaseOptions(baseUrl: url));
@@ -17,8 +18,8 @@ abstract class RegisterModule {
 }
 
 @InjectableInit(
-  preferRelativeImports: true,
-  asExtension: false,
+  initializerName: 'init', // default
+  preferRelativeImports: true, // default
+  asExtension: true, // default
 )
-GetIt configureInjection([String environment = Environment.prod]) =>
-    $initGetIt(injector, environment: environment);
+void configureDependencies() => getIt.init();
