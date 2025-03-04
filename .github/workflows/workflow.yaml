@@ -86,7 +86,12 @@ jobs:
           name: release-aab
           path: build/app/outputs/bundle/release/app-release.aab
       - name: Run fastlane
-        uses: maierj/fastlane-action@v2.2.0
+        uses: actions/checkout@v3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+        uses: maierj/fastlane-action@v3.1.0
         with:
           lane: "production"
           subdirectory: android
