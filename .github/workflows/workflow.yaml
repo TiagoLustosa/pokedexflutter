@@ -19,6 +19,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
           java-version: "17"
 
       - name: Decrypt Android keys
@@ -61,6 +62,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
           java-version: "17"
       - name: Decrypt Android keys
         run: bash ./.github/scripts/decrypt_scripts.sh
