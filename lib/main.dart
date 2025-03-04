@@ -7,6 +7,7 @@ import 'package:pokedex/presenter/views/pokemon_detail_view.dart';
 
 void main() {
   configureDependencies();
+
   runApp(const MyApp());
 }
 
